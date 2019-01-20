@@ -3,7 +3,22 @@ import Component from "../../component.js";
 export default class PhoneViewer extends Component {
     constructor({element}) {
         super({element});
+        this._element.addEventListener('click', ev => {
+            this._onBackClick(ev)
+        });
     }
+
+    _onBackClick(ev) {
+        const buttonBack = ev.target.closest('[data-element="button"]');
+        if (!buttonBack) {
+            return;
+        }
+        super.hide();
+        let event = new Event("hide", {bubbles: true, cancelable: false});
+        this._element.dispatchEvent(event);
+    }
+
+
 
     show(phone) {
         this._render(phone);
@@ -14,7 +29,7 @@ export default class PhoneViewer extends Component {
         this._element.innerHTML = `
             
             <img class="phone" src="img/phones/motorola-xoom-with-wi-fi.0.jpg">
-      <button>Back</button>
+      <button data-element="button">Back</button>
       <button>Add to basket</button>
   
       <h1>Motorola XOOM™ with Wi-Fi</h1>
