@@ -9,6 +9,9 @@ export default class PhoneCatalog extends Component {
         this._element.addEventListener('click', ev => {
             this._onPhoneClick(ev)
         });
+        this._element.parentNode.addEventListener('hide', ev => {
+            super.show();
+        });
     }
 
     _onPhoneClick(ev) {
