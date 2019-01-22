@@ -9,14 +9,11 @@ export default class PhoneCatalog extends Component {
         this._element.addEventListener('click', ev => {
             this._onPhoneClick(ev)
         });
-        this._element.parentNode.addEventListener('hide', ev => {
-            super.show();
-        });
     }
 
     _onPhoneClick(ev) {
         ev.preventDefault();
-        const phoneElement = ev.target.closest('[data-element="phone"]');
+        const phoneElement = ev.target.closest('[data-link="link"]');
         if (!phoneElement) {
             return;
         }
@@ -29,10 +26,8 @@ export default class PhoneCatalog extends Component {
         <ul class="phones">
             ${this._phones.map(phone => `
                 <li class="thumbnail"
-                    data-element="phone"
-                    data-phone-id="${phone.id}">
-                    
-                    <a href="#!/phones/${phone.id}" class="thumb">
+                    data-element="phone">
+                    <a data-link="link" data-phone-id="${phone.id}" href="#!/phones/${phone.id}" class="thumb">
                       <img alt="${phone.name}" src="${phone.imageUrl}">
                     </a>
                     
@@ -42,7 +37,7 @@ export default class PhoneCatalog extends Component {
                         </a>
                     </div>
                     
-                    <a href="#!/phones/${phone.id}">${phone.name}</a>
+                    <a data-link="link" data-phone-id="${phone.id}" href="#!/phones/${phone.id}">${phone.name}</a>
                     
                     <p>${phone.snippet}</p>
                 </li>`).join('')}

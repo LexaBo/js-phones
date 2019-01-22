@@ -1,5 +1,8 @@
 import PhonesPage from './phones/phones-page.js';
 
-new PhonesPage({
+
+var page = new PhonesPage({
     element: document.querySelector('[data-page-container]')
 });
+
+

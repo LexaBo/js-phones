@@ -16,9 +16,11 @@ export default class PhonesPage {
             phones: PhoneService.getPhones(),
             onPhoneSelected: id => {
                 this._catalog.hide();
+                let promise = PhoneService.getPhone(id);
 
-                const phone = PhoneService.getPhone(id);
-                this._viewer.show(phone);
+                promise.then((phone) => {
+                    this._viewer.show(phone);
+                });
             }
         });
     }
@@ -26,7 +28,14 @@ export default class PhonesPage {
     _initViewer() {
         this._viewer = new PhoneViewer({
             element: this._element.querySelector('[data-component="phone-viewer"]'),
-        })
+            onClickImg: elem => {
+                this._element.querySelector('[data-item="large-img"]').src = elem.src;
+            }
+    });
+        this._element.addEventListener('hide', ev => {
+            this._catalog.show();
+            this._viewer.hide();
+        });
     }
 
     _render() {
