@@ -10,7 +10,7 @@ const PhoneService = {
             let method = 'GET';
             let xhr = new XMLHttpRequest();
 
-            xhr.open(method, `http://localhost:3000/phones/${id}.json`, true);
+            xhr.open(method, `https://lexabo.github.io/js-phones/phones/${id}.json`, true);
 
             xhr.send();
 
