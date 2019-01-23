@@ -1,13 +1,15 @@
 import Component from '../../component.js';
 
 export default class PhoneCatalog extends Component {
-    constructor({element, phones, onPhoneSelected}) {
+    constructor({element, phones, onPhoneSelected, onClickAdd}) {
         super({element});
         this._phones = phones;
         this._onPhoneSelected = onPhoneSelected;
+        this._onClickAdd = onClickAdd;
         this._render();
         this._element.addEventListener('click', ev => {
-            this._onPhoneClick(ev)
+            this._onPhoneClick(ev);
+            this._onClickButtonAdd(ev);
         });
     }
 
@@ -21,6 +23,14 @@ export default class PhoneCatalog extends Component {
         this._onPhoneSelected(phoneElement.dataset.phoneId)
     }
 
+    _onClickButtonAdd(ev) {
+        const buttonAdd = ev.target.closest('[data-button="add"]');
+        if (!buttonAdd) {
+            return;
+        }
+       this._onClickAdd(buttonAdd.dataset.phoneId)
+    }
+
     _render() {
         this._element.innerHTML = `
         <ul class="phones">
@@ -32,7 +42,7 @@ export default class PhoneCatalog extends Component {
                     </a>
                     
                     <div class="phones__btn-buy-wrapper">
-                        <a class="btn btn-success">
+                        <a data-phone-id="${phone.id}" data-button="add" class="btn btn-success">
                             Add
                         </a>
                     </div>
