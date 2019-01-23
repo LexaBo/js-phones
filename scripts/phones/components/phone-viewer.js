@@ -1,16 +1,18 @@
 import Component from "../../component.js";
 
 export default class PhoneViewer extends Component {
-    constructor({element, onClickImg}) {
+    constructor({element, onClickImg, onClickAdd}) {
         super({element});
         this.initEvents();
-        this.onClickImg = onClickImg;
+        this._onClickAdd =onClickAdd;
+        this._onClickImg = onClickImg;
     }
 
     initEvents() {
         this._element.addEventListener('click', ev => {
             this._onBackClick(ev);
-            this._onClickImg(ev);
+            this._onSelectImg(ev);
+            this._onClickButtonAdd(ev);
         });
     }
 
@@ -24,12 +26,20 @@ export default class PhoneViewer extends Component {
     }
 
 
-    _onClickImg(ev) {
+    _onSelectImg(ev) {
         const img = ev.target.closest('img');
         if (!img) {
             return;
         }
-        this.onClickImg(img);
+        this._onClickImg(img);
+    }
+
+    _onClickButtonAdd(ev) {
+        const buttonAdd = ev.target.closest('[data-button="add"]');
+        if (!buttonAdd) {
+            return;
+        }
+        this._onClickAdd(buttonAdd.dataset.phoneId)
     }
 
     show(phone) {
@@ -41,7 +51,7 @@ export default class PhoneViewer extends Component {
         this._element.innerHTML =
             `<img alt = '' data-item="large-img" class="phone" src="${phone.images[0]}">
       <button data-element="button">Back</button>
-      <button>Add to basket</button>
+      <button data-phone-id="${phone.id}" data-button="add">Add to basket</button>
   
       <h1>${phone.id}</h1>
   

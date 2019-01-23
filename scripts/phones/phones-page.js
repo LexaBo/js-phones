@@ -1,6 +1,7 @@
 import PhoneCatalog from './components/phone-catalog.js';
 import PhoneViewer from './components/phone-viewer.js';
 import PhoneService from "./services/phone-service.js";
+import ShoppingCart from './components/shopping-cart.js';
 
 export default class PhonesPage {
     constructor({element}) {
@@ -8,6 +9,7 @@ export default class PhonesPage {
         this._render();
         this._initViewer();
         this._initCatalog();
+        this._initShoppingCart();
     }
 
     _initCatalog() {
@@ -21,6 +23,10 @@ export default class PhonesPage {
                 promise.then((phone) => {
                     this._viewer.show(phone);
                 });
+            },
+
+            onClickAdd: id => {
+                this._shoppingCart.addItem(id);
             }
         });
     }
@@ -30,11 +36,24 @@ export default class PhonesPage {
             element: this._element.querySelector('[data-component="phone-viewer"]'),
             onClickImg: elem => {
                 this._element.querySelector('[data-item="large-img"]').src = elem.src;
+            },
+
+            onClickAdd: id => {
+                this._shoppingCart.addItem(id);
             }
     });
         this._element.addEventListener('hide', ev => {
             this._catalog.show();
             this._viewer.hide();
+        });
+    }
+
+    _initShoppingCart() {
+        this._shoppingCart = new ShoppingCart({
+            element: this._element.querySelector('[data-component="shopping-cart"]'),
+            onClickDelete: id => {
+                this._shoppingCart.deleteItem(id);
+            }
         });
     }
 
@@ -59,12 +78,7 @@ export default class PhonesPage {
                                        </section>
                                        
                                        <section>
-                                       <p>Shopping Cart</p>
-                                       <ul>
-                                       <li>Phone 1</li>
-                                       <li>Phone 2</li>
-                                       <li>Phone 3</li>
-                                       </ul>
+                                       <div data-component="shopping-cart">
                                        </section>
                                        </div>
 
