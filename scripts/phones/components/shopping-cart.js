@@ -1,5 +1,3 @@
-
-
 export default class ShoppingCart {
     constructor({element, onClickDelete}) {
         this._element = element;

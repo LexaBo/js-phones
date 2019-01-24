@@ -2,11 +2,13 @@ import PhoneCatalog from './components/phone-catalog.js';
 import PhoneViewer from './components/phone-viewer.js';
 import PhoneService from "./services/phone-service.js";
 import ShoppingCart from './components/shopping-cart.js';
+import Select from './components/select.js';
 
 export default class PhonesPage {
     constructor({element}) {
         this._element = element;
         this._render();
+        this._initSelect();
         this._initViewer();
         this._initCatalog();
         this._initShoppingCart();
@@ -15,7 +17,7 @@ export default class PhonesPage {
     _initCatalog() {
         this._catalog = new PhoneCatalog({
             element: this._element.querySelector('[data-component="phone-catalog"]'),
-            phones: PhoneService.getPhones(),
+            phones: PhoneService.getPhones(document.querySelector('[data-element="select"]').value),
             onPhoneSelected: id => {
                 this._catalog.hide();
                 let promise = PhoneService.getPhone(id);
@@ -57,6 +59,19 @@ export default class PhonesPage {
         });
     }
 
+    _initSelect() {
+        this._select = new Select({
+            element: this._element.querySelector('[data-component="select"]'),
+        });
+
+        this._element.addEventListener("change", ev => {
+            this._catalog = new PhoneCatalog({
+                element: this._element.querySelector('[data-component="phone-catalog"]'),
+                phones: PhoneService.getPhones(document.querySelector('[data-element="select"]').value),
+            });
+        });
+    }
+
     _render() {
         this._element.innerHTML = `
             <div class="row">
@@ -67,16 +82,8 @@ export default class PhonesPage {
                                        Search:
                                        <input>
                                        </p>
-                                       
-                                       <p>
-                                       Sort by:
-                                       <select>
-                                       <option value="name">Alphabetical</option>
-                                       <option value="age">Newest</option>
-                                       </select>
-                                       </p>
+                                        <div data-component="select"></div>
                                        </section>
-                                       
                                        <section>
                                        <div data-component="shopping-cart">
                                        </section>
