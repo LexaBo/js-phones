@@ -11,8 +11,8 @@ export default class Select{
         Sort
         by:
             <select data-element = "select" >
-            <option value = "name" > Alphabetical </option>
-            <option value = "age" > Newest </option>
+             <option value = "age" > Newest </option>
+             <option value = "name" > Alphabetical </option>
             </select>
             </p>`
     }

@@ -3,11 +3,13 @@ import PhoneViewer from './components/phone-viewer.js';
 import PhoneService from "./services/phone-service.js";
 import ShoppingCart from './components/shopping-cart.js';
 import Select from './components/select.js';
+import Search from './components/search.js';
 
 export default class PhonesPage {
     constructor({element}) {
         this._element = element;
         this._render();
+        this._initSearch();
         this._initSelect();
         this._initViewer();
         this._initCatalog();
@@ -72,16 +74,32 @@ export default class PhonesPage {
         });
     }
 
+    _initSearch() {
+        this._search = new Search({
+            element: this._element.querySelector('[data-component="search"]'),
+        });
+        this._element.addEventListener("input", ev => {
+            if(document.querySelector('input').value === ''){
+                this._catalog = new PhoneCatalog({
+                    element: this._element.querySelector('[data-component="phone-catalog"]'),
+                    phones: PhoneService.getPhones(document.querySelector('[data-element="select"]').value),
+                });
+            }else {
+                this._catalog = new PhoneCatalog({
+                    element: this._element.querySelector('[data-component="phone-catalog"]'),
+                    phones: PhoneService.getPhones(document.querySelector('input').value),
+                });
+            }
+        });
+    }
+
     _render() {
         this._element.innerHTML = `
             <div class="row">
               <!--Sidebar-->
               <div class="col-md-2">
                                        <section>
-                                       <p>
-                                       Search:
-                                       <input>
-                                       </p>
+                                        <div data-component="search"></div>
                                         <div data-component="select"></div>
                                        </section>
                                        <section>

@@ -19,6 +19,7 @@ const PhoneService = {
         if(option === 'age'){
             return phones;
         }
+       return phones.filter(a => a.id.indexOf(option) + 1);
     },
 
     getPhone(id) {
