@@ -1,8 +1,25 @@
 import phones from '../../../phones/phones.js';
 
 const PhoneService = {
-    getPhones() {
-        return phones;
+    getPhones(option) {
+        if(option === 'name'){
+           const arr = phones.slice();
+           arr.sort(function (a, b) {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+
+                return 0;
+            });
+           return arr;
+        }
+        if(option === 'age'){
+            return phones;
+        }
+       return phones.filter(a => a.id.indexOf(option) + 1);
     },
 
     getPhone(id) {
@@ -28,3 +45,4 @@ const PhoneService = {
 };
 
 export default PhoneService;
+
