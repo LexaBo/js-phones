@@ -1,8 +1,7 @@
 export default class ShoppingCart {
-    constructor({element, onClickDelete}) {
+    constructor({element}) {
         this._element = element;
         this.item ={};
-        this._onClickDelete = onClickDelete;
         this._element.addEventListener('click', ev => {
             this._onClickButtonDelete(ev);
         });
@@ -31,7 +30,7 @@ export default class ShoppingCart {
         if (!buttonAdd) {
             return;
         }
-        this._onClickDelete(buttonAdd.dataset.phoneId);
+        this.deleteItem(buttonAdd.dataset.phoneId);
     }
 
     _render(obj) {

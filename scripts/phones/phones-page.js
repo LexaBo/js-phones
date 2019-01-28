@@ -55,8 +55,37 @@ export default class PhonesPage {
     _initShoppingCart() {
         this._shoppingCart = new ShoppingCart({
             element: this._element.querySelector('[data-component="shopping-cart"]'),
-            onClickDelete: id => {
-                this._shoppingCart.deleteItem(id);
+        });
+    }
+
+    _initSelect() {
+        this._select = new Select({
+            element: this._element.querySelector('[data-component="select"]'),
+        });
+
+        this._element.addEventListener("change", ev => {
+            this._catalog = new PhoneCatalog({
+                element: this._element.querySelector('[data-component="phone-catalog"]'),
+                phones: PhoneService.getPhones(document.querySelector('[data-element="select"]').value),
+            });
+        });
+    }
+
+    _initSearch() {
+        this._search = new Search({
+            element: this._element.querySelector('[data-component="search"]'),
+        });
+        this._element.addEventListener("input", ev => {
+            if(document.querySelector('input').value === ''){
+                this._catalog = new PhoneCatalog({
+                    element: this._element.querySelector('[data-component="phone-catalog"]'),
+                    phones: PhoneService.getPhones(document.querySelector('[data-element="select"]').value),
+                });
+            }else {
+                this._catalog = new PhoneCatalog({
+                    element: this._element.querySelector('[data-component="phone-catalog"]'),
+                    phones: PhoneService.getPhones(document.querySelector('input').value),
+                });
             }
         });
     }
