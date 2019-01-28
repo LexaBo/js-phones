@@ -55,9 +55,6 @@ export default class PhonesPage {
     _initShoppingCart() {
         this._shoppingCart = new ShoppingCart({
             element: this._element.querySelector('[data-component="shopping-cart"]'),
-            onClickDelete: id => {
-                this._shoppingCart.deleteItem(id);
-            }
         });
     }
 
