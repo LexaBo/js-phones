@@ -14,6 +14,29 @@ export default class PhonesPage {
         this._initViewer();
         this._initCatalog();
         this._initShoppingCart();
+        this._element.addEventListener('hide', ev => {
+            this._catalog.show();
+            this._viewer.hide();
+        });
+        this._element.addEventListener("change", ev => {
+            this._catalog = new PhoneCatalog({
+                element: this._element.querySelector('[data-component="phone-catalog"]'),
+                phones: PhoneService.getPhones(document.querySelector('[data-element="select"]').value),
+            });
+        });
+        this._element.addEventListener("input", ev => {
+            if(document.querySelector('input').value === ''){
+                this._catalog = new PhoneCatalog({
+                    element: this._element.querySelector('[data-component="phone-catalog"]'),
+                    phones: PhoneService.getPhones(document.querySelector('[data-element="select"]').value),
+                });
+            }else {
+                this._catalog = new PhoneCatalog({
+                    element: this._element.querySelector('[data-component="phone-catalog"]'),
+                    phones: PhoneService.getPhones(document.querySelector('input').value),
+                });
+            }
+        });
     }
 
     _initCatalog() {
@@ -46,10 +69,6 @@ export default class PhonesPage {
                 this._shoppingCart.addItem(id);
             }
     });
-        this._element.addEventListener('hide', ev => {
-            this._catalog.show();
-            this._viewer.hide();
-        });
     }
 
     _initShoppingCart() {
@@ -62,31 +81,11 @@ export default class PhonesPage {
         this._select = new Select({
             element: this._element.querySelector('[data-component="select"]'),
         });
-
-        this._element.addEventListener("change", ev => {
-            this._catalog = new PhoneCatalog({
-                element: this._element.querySelector('[data-component="phone-catalog"]'),
-                phones: PhoneService.getPhones(document.querySelector('[data-element="select"]').value),
-            });
-        });
     }
 
     _initSearch() {
         this._search = new Search({
             element: this._element.querySelector('[data-component="search"]'),
-        });
-        this._element.addEventListener("input", ev => {
-            if(document.querySelector('input').value === ''){
-                this._catalog = new PhoneCatalog({
-                    element: this._element.querySelector('[data-component="phone-catalog"]'),
-                    phones: PhoneService.getPhones(document.querySelector('[data-element="select"]').value),
-                });
-            }else {
-                this._catalog = new PhoneCatalog({
-                    element: this._element.querySelector('[data-component="phone-catalog"]'),
-                    phones: PhoneService.getPhones(document.querySelector('input').value),
-                });
-            }
         });
     }
 
